@@ -12,11 +12,12 @@ class FoundInsertInfo():
         sp_teacher = cur.execute("SELECT * FROM class").fetchall()
         for i in sp_info:
             for j in sp_teacher:
-                if i[1] in j:
+                if i[1] in j[1]:
                     count += 1
             if count == 0:
                 cur.execute(f"""INSERT INTO class (loginTeacher, nameTeacher, subject) VALUES ('{i[1]}','{i[2]}','{i[6]}')""")
                 con.commit()
+            count = 0
         con.close()
 
     def UpdateInfo(self, name, surname, cls, login, subject):
@@ -28,13 +29,14 @@ class FoundInsertInfo():
         con.commit()
         con.close()
         print("saved")
+        print()
 
     def CheckPassword(self, login, new_password, old_password):
         print("cheking your pass")
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
         sp = cur.execute(f"SELECT password FROM users WHERE login = '{login}';").fetchall()
-        if sp[0][0] == old_password:
+        if sp[0][0] == old_password and new_password != old_password:
             self.UpdatePassword(login, new_password)
         else:
             print("your password is not correct")
@@ -47,14 +49,25 @@ class FoundInsertInfo():
         con.commit()
         con.close()
         print("password updated")
+        print()
 
     def CheckClass(self, name, subject):
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
         sp = cur.execute(f"SELECT * FROM class WHERE nameTeacher = '{name}' AND subject = '{subject}';").fetchall()
-        if sp[0][3] == None:
-            self.UpdateClassInfo()
+        print(sp)
+        if sp[0][3] == None or sp[0][3] == "":
+            return True
+        else:
+            return sp
         con.close()
 
-    def UpdateClassInfo(self):
-        print("мяу")
+    def UpdateClassInfo(self, loginStudent, nameStudent, cls, nameTeacher, subject):
+        print("Update your class info...")
+        con = sqlite3.connect("bebrica.db")
+        cur = con.cursor()
+        cur.execute("UPDATE class SET loginStudent = ?, nameStudent = ?, class = ? WHERE nameTeacher = ? AND subject = ?", (loginStudent, nameStudent, cls, nameTeacher, subject))
+        con.commit()
+        con.close()
+        print("Updated")
+        print()

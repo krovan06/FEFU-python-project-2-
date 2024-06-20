@@ -67,6 +67,7 @@ class MainTWindow(QMainWindow):
                 self.bd.UpdateInfo(self.main_t_window.name_edit.text(), self.main_t_window.surname_edit.text(),
                                    self.main_t_window.class_edit.text(), self.login, self.main_t_window.item_comboBox.currentText())
                 print("locked :(")
+                print()
                 if self.main_t_window.newpass_edit.text() != "":
                     self.bd.CheckPassword(self.login, self.main_t_window.newpass_edit.text(), self.main_t_window.oldpass_edit.text())
             else:
@@ -203,6 +204,15 @@ class MainSWindow(QMainWindow):
         self.main_s_window.lesson_btn.clicked.connect(self.show_lesson)
         self.main_s_window.exit_btn.clicked.connect(self.exit)
         self.main_s_window.create_btn_3.clicked.connect(self.check_checkboxes)
+        self.main_s_window.item_comboBox.currentIndexChanged.connect(self.update_item_edit)
+
+    def infomation_users(self, name, cls, login, surname):
+        self.main_s_window.name_edit.setText(name)
+        self.main_s_window.class_edit.setText(cls)
+        self.main_s_window.surname_edit.setText(surname)
+        self.login = login
+        self.name = name
+        self.cls = cls
 
 
     def exit(self):
@@ -211,7 +221,40 @@ class MainSWindow(QMainWindow):
     def show_my_account(self):
         self.main_s_window.stackedWidget.setCurrentIndex(0)
         self.main_s_window.surname_edit.setEnabled(False)
+        self.main_s_window.item_comboBox.setEnabled(False)
+        self.main_s_window.name_edit.setEnabled(False)
+        self.main_s_window.class_edit.setEnabled(False)
+        self.main_s_window.newpass_edit.setEnabled(False)
+        self.main_s_window.oldpass_edit.setEnabled(False)
+        self.main_s_window.save_btn.clicked.connect(self.editing_account)
+        self.main_s_window.create_btn.clicked.connect(self.editing_account)
         print(0)
+
+    def editing_account(self):
+        if self.sender().text() == "Редактировать":
+            self.main_s_window.name_edit.setEnabled(True)
+            self.main_s_window.class_edit.setEnabled(True)
+            self.main_s_window.surname_edit.setEnabled(True)
+            self.main_s_window.oldpass_edit.setEnabled(True)
+            self.main_s_window.newpass_edit.setEnabled(True)
+            self.main_s_window.item_comboBox.setEnabled(True)
+            print("unlocked :)")
+        else:
+            if self.main_s_window.class_edit.text() in "0123456789":
+                self.main_s_window.name_edit.setEnabled(False)
+                self.main_s_window.class_edit.setEnabled(False)
+                self.main_s_window.surname_edit.setEnabled(False)
+                self.main_s_window.item_comboBox.setEnabled(False)
+                self.bd.UpdateInfo(self.main_s_window.name_edit.text(), self.main_s_window.surname_edit.text(),
+                                   self.main_s_window.class_edit.text(), self.login,
+                                   self.main_s_window.item_comboBox.currentText())
+                print("locked :(")
+                print()
+                if self.main_s_window.newpass_edit.text() != "":
+                    self.bd.CheckPassword(self.login, self.main_s_window.newpass_edit.text(),
+                                          self.main_s_window.oldpass_edit.text())
+            else:
+                print("Ошибка в одном из полей, пожалуйста, проверьте информацию.")
 
     def show_schedule(self):
         self.main_s_window.stackedWidget.setCurrentIndex(2)
@@ -234,14 +277,22 @@ class MainSWindow(QMainWindow):
         #self.main_s_window.teachers_comboBox.clear()
         #self.main_s_window.teachers_comboBox.addItem("hui")
     def change_teacher(self):
-        print(self.main_s_window.item_comboBox.currentText())
-        #print(self.main_s_window.item_edit.text())
-        self.bd.CheckClass("Egor", "Английский язык")
-        print(self.sender().text())
+        if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text()) == True:
+            #loginStudent, nameStudent, cls, nameTeacher, subject
+            self.bd.UpdateClassInfo(self.login, self.name, self.cls, self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
+        else:
+            sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
+            self.main_s_window.item_edit.setText(sp[0][6])
+            self.main_s_window.name_teacher_edit.setText(sp[0][2])
+            self.main_s_window.level_edit.setText("3")
 
 
     def show_lesson(self):
         self.main_s_window.stackedWidget.setCurrentIndex(4)
+
+    def update_item_edit(self):
+        selected_item = self.main_s_window.item_comboBox.currentText()
+        self.main_s_window.item_edit.setText(selected_item)
 
 
 if __name__ == "__main__":

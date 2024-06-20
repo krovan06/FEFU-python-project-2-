@@ -25,7 +25,8 @@ class CheckThread(QWidget, QtCore.QThread):
                 if sp_users[0][3] == "teacher":
                     self.StartMainTWindow(name)
                 else:
-                    self.StartMainSWindow()
+                    print(name)
+                    self.StartMainSWindow(name)
                 return True
             else:
                 self.text_box.setText("Введен неверный логин/пароль")
@@ -57,7 +58,7 @@ class CheckThread(QWidget, QtCore.QThread):
             self.text_box.setText("Поздравляю с успешной регестрации аккаунта на платформе Бебрика!")
             self.text_box.show()
             con.commit()
-            self.StartMainSWindow()
+            self.StartMainSWindow(log)
             con.close()
             return True
 
@@ -68,5 +69,11 @@ class CheckThread(QWidget, QtCore.QThread):
         self.start_main_t_window.infomation_users(info_users[0][2], info_users[0][3], info_users[0][5], info_users[0][1])
         self.start_main_t_window.show()
         con.close()
-    def StartMainSWindow(self):
+
+    def StartMainSWindow(self, login):
+        con = sqlite3.connect("bebrica.db")
+        cur = con.cursor()
+        info_users = cur.execute(f"""SELECT * FROM information_about_users WHERE login = '{login}';""").fetchall()
         self.start_main_s_window.show()
+        self.start_main_s_window.infomation_users(info_users[0][2], info_users[0][5], info_users[0][1], info_users[0][3])
+        con.close()
