@@ -1,5 +1,7 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QLabel, QMainWindow, QVBoxLayout, QWidget, QMessageBox
+from setuptools._distutils.spawn import spawn
+
 from MainWindowStudent import Ui_MainWindowStudent
 from MainWindowTeacher import Ui_MainWindowTeacher
 from UserInfo import FoundInsertInfo
@@ -250,6 +252,17 @@ class MainSWindow(QMainWindow):
                                    self.main_s_window.item_comboBox.currentText())
                 print("locked :(")
                 print()
+
+                if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0],
+                                      self.main_s_window.item_edit.text(), self.login) == True:
+                    pass
+                else:
+                    sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0],
+                                            self.main_s_window.item_edit.text(), self.login)
+
+                    self.main_s_window.name_teacher_edit.setText(sp[0][2])
+                    self.main_s_window.level_edit.setText(sp[-1])
+
                 if self.main_s_window.newpass_edit.text() != "":
                     self.bd.CheckPassword(self.login, self.main_s_window.newpass_edit.text(),
                                           self.main_s_window.oldpass_edit.text())
@@ -277,13 +290,12 @@ class MainSWindow(QMainWindow):
         #self.main_s_window.teachers_comboBox.clear()
         #self.main_s_window.teachers_comboBox.addItem("hui")
     def change_teacher(self):
-        if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text()) == True:
-            #loginStudent, nameStudent, cls, nameTeacher, subject
+        if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text(), self.login) == True:
             self.bd.UpdateClassInfo(self.login, self.name, self.cls, self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
         else:
-            sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
-            self.main_s_window.item_edit.setText(sp[0][6])
-            self.main_s_window.name_teacher_edit.setText(sp[0][2])
+            sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text(), self.login)
+            self.main_s_window.item_edit.setText(sp[6])
+            self.main_s_window.name_teacher_edit.setText(sp[2])
             self.main_s_window.level_edit.setText("3")
 
 

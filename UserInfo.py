@@ -51,15 +51,20 @@ class FoundInsertInfo():
         print("password updated")
         print()
 
-    def CheckClass(self, name, subject):
+    def CheckClass(self, name, subject, login):
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
-        sp = cur.execute(f"SELECT * FROM class WHERE nameTeacher = '{name}' AND subject = '{subject}';").fetchall()
-        print(sp)
-        if sp[0][3] == None or sp[0][3] == "":
-            return True
-        else:
-            return sp
+        sp = []
+        sp_check = cur.execute(f"SELECT * FROM class WHERE subject = '{subject}';").fetchall()
+        for i in sp_check:
+            if login in i:
+                sp.append(i)
+                cls = cur.execute(f"SELECT level FROM information_about_users WHERE login = '{i[1]}';").fetchall()
+                sp.append(cls[0][0])
+                return sp
+
+        return True
+
         con.close()
 
     def UpdateClassInfo(self, loginStudent, nameStudent, cls, nameTeacher, subject):
