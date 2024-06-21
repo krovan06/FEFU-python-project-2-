@@ -38,6 +38,7 @@ class MainTWindow(QMainWindow):
         self.main_t_window.class_edit.setText(cls)
         self.main_t_window.surname_edit.setText(surname)
         self.login = login
+        self.name = name
 
 
     def show_my_account(self):
@@ -88,12 +89,12 @@ class MainTWindow(QMainWindow):
         self.slovar["Friday"] = self.main_t_window.fri_edit.text()
         self.slovar["Saturaday"] = self.main_t_window.sat_edit.text()
         self.slovar["Sunday"] = self.main_t_window.sun_edit.text()
-        with open("weekly_schedule.txt", "w") as file:
+        with open(f"{self.name}", "w") as file:
             for day in self.slovar:
                 file.write(f"{day}:\n{self.slovar[day]}\n")
         print("Your file is saved :)")
     def update_shedule(self):
-        file = open("weekly_schedule.txt")
+        file = open(f"{self.name}.txt")
         sp = []
         slovar = {}
         for i in file:
@@ -194,6 +195,7 @@ class MainSWindow(QMainWindow):
         self.mainUI()
         self.bd = FoundInsertInfo()
         self.show_my_account()
+        #self.update_schedule()
 
     def mainUI(self):
         self.main_s_window.setupUi(self)
@@ -207,6 +209,7 @@ class MainSWindow(QMainWindow):
         self.main_s_window.exit_btn.clicked.connect(self.exit)
         self.main_s_window.create_btn_3.clicked.connect(self.check_checkboxes)
         self.main_s_window.item_comboBox.currentIndexChanged.connect(self.update_item_edit)
+        self.main_s_window.update_btn.clicked.connect(self.update_schedule)
 
     def infomation_users(self, name, cls, login, surname):
         self.main_s_window.name_edit.setText(name)
@@ -253,12 +256,10 @@ class MainSWindow(QMainWindow):
                 print("locked :(")
                 print()
 
-                if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0],
-                                      self.main_s_window.item_edit.text(), self.login) == True:
+                if self.bd.InsertTeacherLine(self.main_s_window.item_edit.text(), self.login) == True:
                     pass
                 else:
-                    sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0],
-                                            self.main_s_window.item_edit.text(), self.login)
+                    sp = self.bd.InsertTeacherLine(self.main_s_window.item_edit.text(), self.login)
 
                     self.main_s_window.name_teacher_edit.setText(sp[0][2])
                     self.main_s_window.level_edit.setText(sp[-1])
@@ -271,7 +272,25 @@ class MainSWindow(QMainWindow):
 
     def show_schedule(self):
         self.main_s_window.stackedWidget.setCurrentIndex(2)
-        print(2)
+
+    def update_schedule(self):
+        file = open(f"{self.main_s_window.name_teacher_edit.text()}")
+        sp = []
+        slovar = {}
+        for i in file:
+            if i != "":
+                sp.append(i.replace("\n", ""))
+        for i in range(len(sp) - 1):
+            if sp[i] != "":
+                if sp[i][-1] == ":":
+                    slovar[sp[i]] = sp[i + 1]
+        self.main_s_window.mon_edit.setText(slovar["Monday:"])
+        self.main_s_window.tue_edit.setText(slovar["Tuesday:"])
+        self.main_s_window.wed_edit.setText(slovar["Wednesday:"])
+        self.main_s_window.thu_edit.setText(slovar["Thursday:"])
+        self.main_s_window.fri_edit.setText(slovar["Friday:"])
+        self.main_s_window.sat_edit.setText(slovar["Saturaday:"])
+        self.main_s_window.sun_edit.setText(slovar["Sunday:"])
 
     def check_checkboxes(self):
         if self.main_s_window.checkBox_2.isChecked() and self.main_s_window.checkBox_4.isChecked() and self.main_s_window.checkBox_6.isChecked():
@@ -287,16 +306,16 @@ class MainSWindow(QMainWindow):
         self.main_s_window.name_teacher_edit.text()
         self.main_s_window.item_edit.text()
         self.main_s_window.level_edit.text()
-        #self.main_s_window.teachers_comboBox.clear()
-        #self.main_s_window.teachers_comboBox.addItem("hui")
     def change_teacher(self):
-        if self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text(), self.login) == True:
+        if self.bd.CheckClass(self.main_s_window.item_edit.text(), self.main_s_window.teachers_comboBox.currentText().split()[0]) == True:
+            self.bd.DeleteClassInfo(self.main_s_window.name_teacher_edit.text(), self.main_s_window.item_edit.text())
             self.bd.UpdateClassInfo(self.login, self.name, self.cls, self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
+
+            sp = self.bd.InsertTeacherLine(self.main_s_window.item_edit.text(), self.login)
+            self.main_s_window.name_teacher_edit.setText(sp[0][2])
+            self.main_s_window.level_edit.setText(sp[-1])
         else:
-            sp = self.bd.CheckClass(self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text(), self.login)
-            self.main_s_window.item_edit.setText(sp[6])
-            self.main_s_window.name_teacher_edit.setText(sp[2])
-            self.main_s_window.level_edit.setText("3")
+            print("Занято епты")
 
 
     def show_lesson(self):
