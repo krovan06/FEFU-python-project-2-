@@ -286,6 +286,13 @@ class MainSWindow(QMainWindow):
 
     def show_schedule(self):
         self.main_s_window.stackedWidget.setCurrentIndex(2)
+        self.main_s_window.mon_edit.setEnabled(False)
+        self.main_s_window.tue_edit.setEnabled(False)
+        self.main_s_window.wed_edit.setEnabled(False)
+        self.main_s_window.thu_edit.setEnabled(False)
+        self.main_s_window.fri_edit.setEnabled(False)
+        self.main_s_window.sat_edit.setEnabled(False)
+        self.main_s_window.sun_edit.setEnabled(False)
 
     def update_schedule(self):
         try:
@@ -323,14 +330,25 @@ class MainSWindow(QMainWindow):
         self.main_s_window.name_teacher_edit.text()
         self.main_s_window.item_edit.text()
         self.main_s_window.level_edit.text()
-    def change_teacher(self):
-        if self.bd.CheckClass(self.main_s_window.item_edit.text(), self.main_s_window.teachers_comboBox.currentText().split()[0]) == True:
-            self.bd.DeleteClassInfo(self.main_s_window.name_teacher_edit.text(), self.main_s_window.item_edit.text())
-            self.bd.UpdateClassInfo(self.login, self.name, self.cls, self.main_s_window.teachers_comboBox.currentText().split()[0], self.main_s_window.item_edit.text())
 
-            sp = self.bd.InsertTeacherLine(self.main_s_window.item_edit.text(), self.login)
-            self.main_s_window.name_teacher_edit.setText(sp[0][2])
-            self.main_s_window.level_edit.setText(sp[-1])
+    def change_teacher(self):
+        if not self.main_s_window.item_edit.text():
+            QMessageBox.warning(self, 'Ошибка', 'Предмет не выбран')
+            return
+
+        if self.bd.CheckClass(self.main_s_window.item_edit.text(),
+                              self.main_s_window.teachers_comboBox.currentText().split()[0]) == True:
+            try:
+                self.bd.DeleteClassInfo()
+                self.bd.UpdateClassInfo(self.login, self.name, self.cls,
+                                        self.main_s_window.teachers_comboBox.currentText().split()[0],
+                                        self.main_s_window.item_edit.text())
+
+                sp = self.bd.InsertTeacherLine(self.main_s_window.item_edit.text(), self.login)
+                self.main_s_window.name_teacher_edit.setText(sp[0][2])
+                self.main_s_window.level_edit.setText(sp[-1])
+            except:
+                QMessageBox.warning(self, "Ошибка", "Неизвестная ошибка №23-21-11")
         else:
             QMessageBox.information(self, "Предупреждение", "Этот преподователь занят или ведет другой предмет")
 

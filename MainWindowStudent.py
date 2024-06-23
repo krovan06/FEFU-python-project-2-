@@ -616,40 +616,6 @@ class Ui_MainWindowStudent(object):
         self.item_edit.setMaxLength(16)
         self.item_edit.setReadOnly(True)
         self.item_edit.setObjectName("item_edit")
-        self.change_btn = QtWidgets.QPushButton(parent=self.teachers_page)
-        self.change_btn.setGeometry(QtCore.QRect(110, 460, 201, 31))
-        font = QtGui.QFont()
-        font.setPointSize(-1)
-        self.change_btn.setFont(font)
-        self.change_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.change_btn.setStyleSheet("QPushButton {\n"
-"    border-radius: 8px;\n"
-"    background-color:  rgb(255, 92, 71);\n"
-"    color:  rgb(255, 255, 255);\n"
-"    font-size:  25px;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color:  rgb(255, 162, 125);\n"
-"}")
-        self.change_btn.setObjectName("change_btn")
-        self.save_btn_2 = QtWidgets.QPushButton(parent=self.teachers_page)
-        self.save_btn_2.setGeometry(QtCore.QRect(440, 460, 201, 31))
-        font = QtGui.QFont()
-        font.setPointSize(-1)
-        self.save_btn_2.setFont(font)
-        self.save_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.save_btn_2.setStyleSheet("QPushButton {\n"
-"    border-radius: 8px;\n"
-"    background-color:  rgb(255, 92, 71);\n"
-"    color:  rgb(255, 255, 255);\n"
-"    font-size:  25px;\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"    background-color:  rgb(255, 162, 125);\n"
-"}")
-        self.save_btn_2.setObjectName("save_btn_2")
         self.class_label_7 = QtWidgets.QLabel(parent=self.teachers_page)
         self.class_label_7.setGeometry(QtCore.QRect(10, 340, 751, 31))
         font = QtGui.QFont()
@@ -679,6 +645,40 @@ class Ui_MainWindowStudent(object):
         self.teachers_comboBox.addItem("")
         self.teachers_comboBox.addItem("")
         self.teachers_comboBox.addItem("")
+        self.change_btn = QtWidgets.QPushButton(parent=self.teachers_page)
+        self.change_btn.setGeometry(QtCore.QRect(260, 440, 221, 31))
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.change_btn.setFont(font)
+        self.change_btn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.change_btn.setStyleSheet("QPushButton {\n"
+"    border-radius: 8px;\n"
+"    background-color:  rgb(255, 92, 71);\n"
+"    color:  rgb(255, 255, 255);\n"
+"    font-size:  25px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color:  rgb(255, 162, 125);\n"
+"}")
+        self.change_btn.setObjectName("change_btn")
+        self.save_btn_2 = QtWidgets.QPushButton(parent=self.teachers_page)
+        self.save_btn_2.setGeometry(QtCore.QRect(741, 510, 20, 31))
+        font = QtGui.QFont()
+        font.setPointSize(-1)
+        self.save_btn_2.setFont(font)
+        self.save_btn_2.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.save_btn_2.setStyleSheet("QPushButton {\n"
+"    border-radius: 8px;\n"
+"    background-color:   rgb(255, 212, 194);\n"
+"    color:   rgb(255, 212, 194);\n"
+"    font-size:  25px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"    background-color:   rgb(255, 212, 194);\n"
+"}")
+        self.save_btn_2.setObjectName("save_btn_2")
         self.stackedWidget.addWidget(self.teachers_page)
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
@@ -871,16 +871,16 @@ class Ui_MainWindowStudent(object):
         self.class_label_5.setText(_translate("MainWindowStudent", "Имя:"))
         self.class_label_6.setText(_translate("MainWindowStudent", "Стаж:"))
         self.item_label_2.setText(_translate("MainWindowStudent", "Предмет: "))
-        self.change_btn.setText(_translate("MainWindowStudent", "Сменить"))
-        self.save_btn_2.setText(_translate("MainWindowStudent", "Сохранить"))
         self.class_label_7.setText(_translate("MainWindowStudent", "Выбор нового преподователя:"))
         self.teachers_comboBox.setItemText(0, _translate("MainWindowStudent", "Не выбран"))
         self.teachers_comboBox.setItemText(1, _translate("MainWindowStudent", "Егор Бобрунов"))
-        self.teachers_comboBox.setItemText(2, _translate("MainWindowStudent", "Диких Олег"))
-        self.teachers_comboBox.setItemText(3, _translate("MainWindowStudent", "Махно София"))
-        self.teachers_comboBox.setItemText(4, _translate("MainWindowStudent", "Василий Котик"))
-        self.teachers_comboBox.setItemText(5, _translate("MainWindowStudent", "Жанна Никулина"))
-        self.teachers_comboBox.setItemText(6, _translate("MainWindowStudent", "Степан Руденко"))
+        self.teachers_comboBox.setItemText(2, _translate("MainWindowStudent", "Олег Диких"))
+        self.teachers_comboBox.setItemText(3, _translate("MainWindowStudent", "Степан Руденко"))
+        self.teachers_comboBox.setItemText(4, _translate("MainWindowStudent", "Светлана Березина"))
+        self.teachers_comboBox.setItemText(5, _translate("MainWindowStudent", "Кирилл Мазур"))
+        self.teachers_comboBox.setItemText(6, _translate("MainWindowStudent", "Андрей Бебур"))
+        self.change_btn.setText(_translate("MainWindowStudent", "Сменить"))
+        self.save_btn_2.setText(_translate("MainWindowStudent", "Сохранить"))
         self.textBrowser.setHtml(_translate("MainWindowStudent", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
