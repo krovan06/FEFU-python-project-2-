@@ -297,7 +297,7 @@ class Ui_MainWindowStudent(object):
 "}\n"
 "")
         self.photo_label.setText("")
-        self.photo_label.setPixmap(QtGui.QPixmap("images.png"))
+        self.photo_label.setPixmap(QtGui.QPixmap("human_icon.png"))
         self.photo_label.setScaledContents(True)
         self.photo_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.photo_label.setWordWrap(False)
@@ -353,7 +353,7 @@ class Ui_MainWindowStudent(object):
         self.pushButton.setGeometry(QtCore.QRect(700, 10, 31, 31))
         self.pushButton.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("2024-05-26_200911.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("photo_2024-05-17_15-45-57.jpg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton.setIcon(icon)
         self.pushButton.setIconSize(QtCore.QSize(32, 32))
         self.pushButton.setObjectName("pushButton")

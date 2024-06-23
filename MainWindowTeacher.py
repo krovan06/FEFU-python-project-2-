@@ -296,7 +296,7 @@ class Ui_MainWindowTeacher(object):
 "}\n"
 "")
         self.photo_label.setText("")
-        self.photo_label.setPixmap(QtGui.QPixmap("images.png"))
+        self.photo_label.setPixmap(QtGui.QPixmap("human_icon.png"))
         self.photo_label.setScaledContents(True)
         self.photo_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.photo_label.setWordWrap(False)
