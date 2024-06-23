@@ -24,7 +24,12 @@ class FoundInsertInfo():
         print("save...")
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
-        self.sp_user = cur.execute(f"SELECT * FROM class WHERE loginStudent = '{login}';").fetchall()
+        self.sp_user = cur.execute(f"SELECT * FROM class WHERE loginStudent = '{login}' AND subject = '{subject}';").fetchall()
+        if self.sp_user == []:
+            self.sp_user = cur.execute(f"SELECT * FROM class WHERE loginTeacher = '{login}';").fetchall()
+            if self.sp_user == []:
+                self.sp_user = cur.execute("SELECT * FROM information_about_users WHERE login = 'Bobr'").fetchall()
+            print(self.sp_user)
         cur.execute("UPDATE information_about_users SET name = ?, surname = ?, level = ?, subject = ? WHERE login = ?", (name, surname, cls, subject, login))
         cur.execute("UPDATE class SET nameTeacher = ?, subject = ? WHERE loginTeacher = ?", (name, subject, login))
         con.commit()
@@ -101,3 +106,11 @@ class FoundInsertInfo():
         con.close()
         self.InsertClassInfo()
         print("Deleted")
+
+    def StudentInsert(self, login, subject):
+        con = sqlite3.connect("bebrica.db")
+        cur = con.cursor()
+        self.sp_user = cur.execute("SELECT * from class WHERE loginTeacher = ? AND subject = ?", (login, subject)).fetchall()
+        con.commit()
+        con.close()
+        return self.sp_user

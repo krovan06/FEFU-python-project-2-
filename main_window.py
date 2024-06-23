@@ -22,6 +22,16 @@ class MainTWindow(QMainWindow):
         self.connection()
         self.setup_links()
 
+    def infomation_users(self, name, surname, cls, login, subject):
+        self.main_t_window.name_edit.setText(name)
+        self.main_t_window.class_edit.setText(cls)
+        self.main_t_window.surname_edit.setText(surname)
+        self.login = login
+        self.name = name
+        self.subject = subject
+
+        self.main_t_window.item_comboBox.setCurrentText(self.subject)
+
     def connection(self):
         self.main_t_window.my_account_btn.clicked.connect(self.show_my_account)
         self.main_t_window.schedule_btn.clicked.connect(self.show_schedule)
@@ -33,13 +43,6 @@ class MainTWindow(QMainWindow):
 
     def exit(self):
         self.close()
-
-    def infomation_users(self, name, surname, cls, login):
-        self.main_t_window.name_edit.setText(name)
-        self.main_t_window.class_edit.setText(cls)
-        self.main_t_window.surname_edit.setText(surname)
-        self.login = login
-        self.name = name
 
     def show_my_account(self):
         self.main_t_window.stackedWidget.setCurrentIndex(0)
@@ -79,6 +82,12 @@ class MainTWindow(QMainWindow):
                 print("Ошибка в одном из полей, пожалуйста, проверьте информацию.")
 
     def show_schedule(self):
+        self.Student = self.bd.StudentInsert(self.login, self.main_t_window.item_comboBox.currentText())
+        self.main_t_window.name_s_edit.setText(self.Student[0][4])
+        self.main_t_window.class_s_edit.setText(self.Student[0][5])
+        self.main_t_window.name_s_edit.setEnabled(False)
+        self.main_t_window.class_s_edit.setEnabled(False)
+
         self.main_t_window.stackedWidget.setCurrentIndex(2)
         self.main_t_window.save_btn_2.clicked.connect(self.save_shedule)
         self.main_t_window.update_btn.clicked.connect(self.update_shedule)
@@ -99,7 +108,7 @@ class MainTWindow(QMainWindow):
         print("Your file is saved :)")
 
     def update_shedule(self):
-        file = open(f"{self.name}.txt")
+        file = open(f"{self.name}")
         sp = []
         slovar = {}
         for i in file:
@@ -298,7 +307,7 @@ class MainSWindow(QMainWindow):
             self.main_s_window.sat_edit.setText(slovar["Saturaday:"])
             self.main_s_window.sun_edit.setText(slovar["Sunday:"])
         except:
-            QMessageBox.warning(self, 'Ошибка', f'Расписание не создано преподавателем')
+            QMessageBox.warning(self, 'Ошибка', 'Расписание не создано преподавателем')
 
     def check_checkboxes(self):
         if self.main_s_window.checkBox_2.isChecked() and self.main_s_window.checkBox_4.isChecked() and self.main_s_window.checkBox_6.isChecked():

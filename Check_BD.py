@@ -66,7 +66,7 @@ class CheckThread(QWidget, QtCore.QThread):
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
         info_users = cur.execute(f"""SELECT * FROM information_about_users WHERE login = '{login}';""").fetchall()
-        self.start_main_t_window.infomation_users(info_users[0][2], info_users[0][3], info_users[0][5], info_users[0][1])
+        self.start_main_t_window.infomation_users(info_users[0][2], info_users[0][3], info_users[0][5], info_users[0][1], info_users[0][6])
         self.start_main_t_window.show()
         con.close()
 
