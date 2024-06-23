@@ -6,6 +6,7 @@ from MainWindowStudent import Ui_MainWindowStudent
 from MainWindowTeacher import Ui_MainWindowTeacher
 from UserInfo import FoundInsertInfo
 
+
 class MainTWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -40,7 +41,6 @@ class MainTWindow(QMainWindow):
         self.login = login
         self.name = name
 
-
     def show_my_account(self):
         self.main_t_window.stackedWidget.setCurrentIndex(0)
         self.main_t_window.name_edit.setEnabled(False)
@@ -68,17 +68,21 @@ class MainTWindow(QMainWindow):
                 self.main_t_window.surname_edit.setEnabled(False)
                 self.main_t_window.item_comboBox.setEnabled(False)
                 self.bd.UpdateInfo(self.main_t_window.name_edit.text(), self.main_t_window.surname_edit.text(),
-                                   self.main_t_window.class_edit.text(), self.login, self.main_t_window.item_comboBox.currentText())
+                                   self.main_t_window.class_edit.text(), self.login,
+                                   self.main_t_window.item_comboBox.currentText())
                 print("locked :(")
                 print()
                 if self.main_t_window.newpass_edit.text() != "":
-                    self.bd.CheckPassword(self.login, self.main_t_window.newpass_edit.text(), self.main_t_window.oldpass_edit.text())
+                    self.bd.CheckPassword(self.login, self.main_t_window.newpass_edit.text(),
+                                          self.main_t_window.oldpass_edit.text())
             else:
                 print("Ошибка в одном из полей, пожалуйста, проверьте информацию.")
+
     def show_schedule(self):
         self.main_t_window.stackedWidget.setCurrentIndex(2)
         self.main_t_window.save_btn_2.clicked.connect(self.save_shedule)
         self.main_t_window.update_btn.clicked.connect(self.update_shedule)
+
     def save_shedule(self):
         self.slovar = {}
         self.sp = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
@@ -93,6 +97,7 @@ class MainTWindow(QMainWindow):
             for day in self.slovar:
                 file.write(f"{day}:\n{self.slovar[day]}\n")
         print("Your file is saved :)")
+
     def update_shedule(self):
         file = open(f"{self.name}.txt")
         sp = []
@@ -187,6 +192,7 @@ class MainTWindow(QMainWindow):
         else:
             QMessageBox.warning(self, 'Сообщение', 'Отметьте все пункты')
 
+
 class MainSWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -195,7 +201,7 @@ class MainSWindow(QMainWindow):
         self.mainUI()
         self.bd = FoundInsertInfo()
         self.show_my_account()
-        #self.update_schedule()
+        # self.update_schedule()
 
     def mainUI(self):
         self.main_s_window.setupUi(self)
@@ -218,7 +224,6 @@ class MainSWindow(QMainWindow):
         self.login = login
         self.name = name
         self.cls = cls
-
 
     def exit(self):
         self.close()
@@ -318,8 +323,7 @@ class MainSWindow(QMainWindow):
             self.main_s_window.name_teacher_edit.setText(sp[0][2])
             self.main_s_window.level_edit.setText(sp[-1])
         else:
-            print("Занято епты")
-
+            QMessageBox.information(self, "Предупреждение", "Этот преподователь занят или ведет другой предмет")
 
     def show_lesson(self):
         self.main_s_window.stackedWidget.setCurrentIndex(4)
