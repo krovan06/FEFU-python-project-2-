@@ -274,23 +274,26 @@ class MainSWindow(QMainWindow):
         self.main_s_window.stackedWidget.setCurrentIndex(2)
 
     def update_schedule(self):
-        file = open(f"{self.main_s_window.name_teacher_edit.text()}")
-        sp = []
-        slovar = {}
-        for i in file:
-            if i != "":
-                sp.append(i.replace("\n", ""))
-        for i in range(len(sp) - 1):
-            if sp[i] != "":
-                if sp[i][-1] == ":":
-                    slovar[sp[i]] = sp[i + 1]
-        self.main_s_window.mon_edit.setText(slovar["Monday:"])
-        self.main_s_window.tue_edit.setText(slovar["Tuesday:"])
-        self.main_s_window.wed_edit.setText(slovar["Wednesday:"])
-        self.main_s_window.thu_edit.setText(slovar["Thursday:"])
-        self.main_s_window.fri_edit.setText(slovar["Friday:"])
-        self.main_s_window.sat_edit.setText(slovar["Saturaday:"])
-        self.main_s_window.sun_edit.setText(slovar["Sunday:"])
+        try:
+            file = open(f"{self.main_s_window.name_teacher_edit.text()}")
+            sp = []
+            slovar = {}
+            for i in file:
+                if i != "":
+                    sp.append(i.replace("\n", ""))
+            for i in range(len(sp) - 1):
+                if sp[i] != "":
+                    if sp[i][-1] == ":":
+                        slovar[sp[i]] = sp[i + 1]
+            self.main_s_window.mon_edit.setText(slovar["Monday:"])
+            self.main_s_window.tue_edit.setText(slovar["Tuesday:"])
+            self.main_s_window.wed_edit.setText(slovar["Wednesday:"])
+            self.main_s_window.thu_edit.setText(slovar["Thursday:"])
+            self.main_s_window.fri_edit.setText(slovar["Friday:"])
+            self.main_s_window.sat_edit.setText(slovar["Saturaday:"])
+            self.main_s_window.sun_edit.setText(slovar["Sunday:"])
+        except:
+            QMessageBox.warning(self, 'Ошибка', f'Расписание не создано преподавателем')
 
     def check_checkboxes(self):
         if self.main_s_window.checkBox_2.isChecked() and self.main_s_window.checkBox_4.isChecked() and self.main_s_window.checkBox_6.isChecked():

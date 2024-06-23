@@ -56,11 +56,13 @@ class FoundInsertInfo():
         cur = con.cursor()
         sp_check = cur.execute(f"SELECT * FROM class WHERE subject = '{subject}' AND nameTeacher = '{nameTeacher}';").fetchall()
         print(sp_check, "CheckClass", nameTeacher, subject)
-        if sp_check[0][3] == "" or sp_check[0][3] == None:
-            print("True")
-            return True
-        else:
-            return False
+        try:
+            if sp_check[0][3] == "" or sp_check[0][3] == None:
+                return True
+            else:
+                return False
+        except:
+            print("ERROR")
         con.close()
 
     def InsertTeacherLine(self, subject, login):
@@ -68,7 +70,6 @@ class FoundInsertInfo():
         cur = con.cursor()
         sp = []
         sp_check = cur.execute(f"SELECT * FROM class WHERE subject = '{subject}';").fetchall()
-        print(sp_check, "INSERT")
         for i in sp_check:
             if login in i:
                 sp.append(i)
@@ -93,6 +94,7 @@ class FoundInsertInfo():
 
     def DeleteClassInfo(self, nameTeacher, subject):
         print("Delete")
+        print(nameTeacher, subject)
         con = sqlite3.connect("bebrica.db")
         cur = con.cursor()
         cur.execute("DELETE from class WHERE nameTeacher = ? AND subject = ?", (nameTeacher, subject))
