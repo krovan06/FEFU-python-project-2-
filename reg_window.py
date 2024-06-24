@@ -24,7 +24,6 @@ class RegisterWindow(QWidget):
                 QMessageBox.critical(self, "Error", f"Failed to open document: {document_path}")
 
     def registar(self):
-        print(0)
 
         Name = self.regwindow.name_edit.text()
         Class = self.regwindow.class_edit.text()
@@ -39,7 +38,6 @@ class RegisterWindow(QWidget):
         password1 = self.regwindow.pass_edit.text()
         password2 = self.regwindow.reliab_pass_edit.text()
         if password1 == password2 and password2 != "" and password1 != "" and log != "" and self.regwindow.checkBox.isChecked():
-            print(1)
             if self.check_db.thr_register(log, password1, Name, Class):
                 self.close()
         elif not(password2 != "" and password1 != "" and log != ""):

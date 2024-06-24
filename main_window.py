@@ -247,7 +247,6 @@ class MainSWindow(QMainWindow):
         self.main_s_window.oldpass_edit.setEnabled(False)
         self.main_s_window.save_btn.clicked.connect(self.editing_account)
         self.main_s_window.create_btn.clicked.connect(self.editing_account)
-        print(0)
 
     def editing_account(self):
         if self.sender().text() == "Редактировать":

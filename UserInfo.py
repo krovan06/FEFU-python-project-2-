@@ -113,4 +113,5 @@ class FoundInsertInfo():
         self.sp_user = cur.execute("SELECT * from class WHERE loginTeacher = ? AND subject = ?", (login, subject)).fetchall()
         con.commit()
         con.close()
+
         return self.sp_user

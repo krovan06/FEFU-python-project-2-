@@ -16,16 +16,13 @@ class CheckThread(QWidget, QtCore.QThread):
 
         cur.execute("SELECT * FROM Users WHERE login = ?", (name,))
         sp_users = cur.fetchall()
-        print(sp_users)
 
         if sp_users:
             user_info = {row[1]: row[2] for row in sp_users}
-            print(user_info)
             if name in user_info and user_info[name] == password:
                 if sp_users[0][3] == "teacher":
                     self.StartMainTWindow(name)
                 else:
-                    print(name)
                     self.StartMainSWindow(name)
                 return True
             else:
@@ -49,12 +46,8 @@ class CheckThread(QWidget, QtCore.QThread):
             return False
 
         elif sp_user == []:
-            print(2)
-            print(log, name, cls)
             cur.execute(f"""INSERT INTO users (login, password) VALUES ('{log}','{password}')""")
-            print(3)
             cur.execute(f"""INSERT INTO information_about_users (login, name, level) VALUES ('{log}', '{name}', '{cls}')""")
-            print(4)
             self.text_box.setText("Поздравляю с успешной регестрации аккаунта на платформе Бебрика!")
             self.text_box.show()
             con.commit()
